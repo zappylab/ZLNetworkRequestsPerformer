@@ -5,15 +5,9 @@
 //
 
 
+#import <AFNetworking/AFNetworking.h>
+
 #import "ZLNetworkReachabilityObserver.h"
-
-/////////////////////////////////////////////////////
-
-#ifdef PRODUCTION
-static NSString *const kReachabilityCheckAddress = @"https://www.pubchase.com";
-#else
-static NSString *const kReachabilityCheckAddress = @"http://dev.pubchase.com";
-#endif
 
 /////////////////////////////////////////////////////
 
@@ -28,35 +22,35 @@ static NSString *const kReachabilityCheckAddress = @"http://dev.pubchase.com";
 
 @implementation ZLNetworkReachabilityObserver
 
-#pragma mark - Instantiation
-
-+(instancetype) sharedInstance
-{
-    static ZLNetworkReachabilityObserver *_sharedObserver = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sharedObserver = [[ZLNetworkReachabilityObserver alloc] init];
-    });
-
-    return _sharedObserver;
-}
-
 #pragma mark - Initialization
 
 -(instancetype) init
 {
+    @throw [NSException exceptionWithName:@""
+                                   reason:@"User initWithURL: for initialization purposes"
+                                 userInfo:nil];
+}
+
+-(instancetype) initWithURL:(NSURL *) URL
+{
     self = [super init];
     if (self) {
-        [self setup];
+        [self setupWithURL:URL];
     }
 
     return self;
 }
 
--(void) setup
+-(void) setupWithURL:(NSURL *) URL
 {
-    self.requestOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kReachabilityCheckAddress]];
+    self.requestOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:URL];
+    [self startObservingReachability];
+}
 
+#pragma mark - Observing
+
+-(void) startObservingReachability
+{
     __weak ZLNetworkReachabilityObserver *wSelf = self;
     [self.requestOperationManager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
     {
@@ -69,7 +63,7 @@ static NSString *const kReachabilityCheckAddress = @"http://dev.pubchase.com";
             wSelf.networkReachable = YES;
         }
 
-        // notify all the other objects - ZLNetworkReachabilityObserver is the only one
+        // notify all other objects - ZLNetworkReachabilityObserver is the only one
         // class handling AFNetworking notifications
         [wSelf postReachabilityStatusChangeNotification];
     }];
@@ -80,7 +74,7 @@ static NSString *const kReachabilityCheckAddress = @"http://dev.pubchase.com";
 
 -(void) postReachabilityStatusChangeNotification
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkReachabilityStatusChangeNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:ZLNNetworkReachabilityStatusChangeNotification
                                                         object:self];
 }
 

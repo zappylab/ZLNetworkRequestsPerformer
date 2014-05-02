@@ -17,7 +17,8 @@
 		BDCC82C4190FC63A001BDAD8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDCC82C2190FC63A001BDAD8 /* Main.storyboard */; };
 		BDCC82C7190FC63A001BDAD8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BDCC82C6190FC63A001BDAD8 /* ViewController.m */; };
 		BDCC82C9190FC63A001BDAD8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BDCC82C8190FC63A001BDAD8 /* Images.xcassets */; };
-		BDCC82E8190FC85D001BDAD8 /* ZLNetworkRequestsPerformer.m in Sources */ = {isa = PBXBuildFile; fileRef = BDCC82E7190FC85D001BDAD8 /* ZLNetworkRequestsPerformer.m */; };
+		BDD94758191356BC00462717 /* ZLNetworkReachabilityObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD94755191356BC00462717 /* ZLNetworkReachabilityObserver.m */; };
+		BDD94759191356BC00462717 /* ZLNetworkRequestsPerformer.m in Sources */ = {isa = PBXBuildFile; fileRef = BDD94757191356BC00462717 /* ZLNetworkRequestsPerformer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,8 +38,10 @@
 		BDCC82C6190FC63A001BDAD8 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		BDCC82C8190FC63A001BDAD8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BDCC82CF190FC63A001BDAD8 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		BDCC82E6190FC85D001BDAD8 /* ZLNetworkRequestsPerformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLNetworkRequestsPerformer.h; sourceTree = "<group>"; };
-		BDCC82E7190FC85D001BDAD8 /* ZLNetworkRequestsPerformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLNetworkRequestsPerformer.m; sourceTree = "<group>"; };
+		BDD94754191356BC00462717 /* ZLNetworkReachabilityObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLNetworkReachabilityObserver.h; sourceTree = "<group>"; };
+		BDD94755191356BC00462717 /* ZLNetworkReachabilityObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLNetworkReachabilityObserver.m; sourceTree = "<group>"; };
+		BDD94756191356BC00462717 /* ZLNetworkRequestsPerformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLNetworkRequestsPerformer.h; sourceTree = "<group>"; };
+		BDD94757191356BC00462717 /* ZLNetworkRequestsPerformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLNetworkRequestsPerformer.m; sourceTree = "<group>"; };
 		F421A6B5DAFF4FBFB077BCB2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -90,7 +93,7 @@
 		BDCC82B6190FC63A001BDAD8 /* ZLNetworkRequestsPerformerTests */ = {
 			isa = PBXGroup;
 			children = (
-				BDCC82E5190FC85D001BDAD8 /* ZLNetworkRequestsPerformer */,
+				BDD94753191356BC00462717 /* NetworkRequestsPerformer */,
 				BDCC82BF190FC63A001BDAD8 /* AppDelegate.h */,
 				BDCC82C0190FC63A001BDAD8 /* AppDelegate.m */,
 				BDCC82C2190FC63A001BDAD8 /* Main.storyboard */,
@@ -113,14 +116,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		BDCC82E5190FC85D001BDAD8 /* ZLNetworkRequestsPerformer */ = {
+		BDD94753191356BC00462717 /* NetworkRequestsPerformer */ = {
 			isa = PBXGroup;
 			children = (
-				BDCC82E6190FC85D001BDAD8 /* ZLNetworkRequestsPerformer.h */,
-				BDCC82E7190FC85D001BDAD8 /* ZLNetworkRequestsPerformer.m */,
+				BDD94754191356BC00462717 /* ZLNetworkReachabilityObserver.h */,
+				BDD94755191356BC00462717 /* ZLNetworkReachabilityObserver.m */,
+				BDD94756191356BC00462717 /* ZLNetworkRequestsPerformer.h */,
+				BDD94757191356BC00462717 /* ZLNetworkRequestsPerformer.m */,
 			);
-			name = ZLNetworkRequestsPerformer;
-			path = ../../ZLNetworkRequestsPerformer;
+			name = NetworkRequestsPerformer;
+			path = ../../NetworkRequestsPerformer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,9 +229,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDCC82C7190FC63A001BDAD8 /* ViewController.m in Sources */,
+				BDD94759191356BC00462717 /* ZLNetworkRequestsPerformer.m in Sources */,
 				BDCC82C1190FC63A001BDAD8 /* AppDelegate.m in Sources */,
-				BDCC82E8190FC85D001BDAD8 /* ZLNetworkRequestsPerformer.m in Sources */,
 				BDCC82BD190FC63A001BDAD8 /* main.m in Sources */,
+				BDD94758191356BC00462717 /* ZLNetworkReachabilityObserver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

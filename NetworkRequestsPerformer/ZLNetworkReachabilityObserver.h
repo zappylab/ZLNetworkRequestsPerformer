@@ -7,17 +7,15 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AFNetworking.h"
-
 /////////////////////////////////////////////////////
 
-static NSString *const kNetworkReachabilityStatusChangeNotification = @"NetworkReachabilityStatusChange";
+static NSString *const ZLNNetworkReachabilityStatusChangeNotification = @"NetworkReachabilityStatusChange";
 
 /////////////////////////////////////////////////////
 
 @interface ZLNetworkReachabilityObserver : NSObject
 
-+(instancetype) sharedInstance;
+-(instancetype) initWithURL:(NSURL *) URL;
 
 @property (readonly) BOOL networkReachable;
 

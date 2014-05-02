@@ -13,7 +13,8 @@
 
 @property (copy) NSString *userIdentifier;
 
--(instancetype) initWithBaseURL:(NSURL *) baseURL;
+-(instancetype) initWithBaseURL:(NSURL *) baseURL
+                  appIdentifier:(NSString *) appIdentifier;
 
 -(NSOperation *) POST:(NSString *) path
            parameters:(NSDictionary *) parameters

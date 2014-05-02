@@ -10,19 +10,20 @@
 
 /////////////////////////////////////////////////////
 
-static NSString *const kZLUserIdentifierKey = @"uid";
-static NSString *const kZLAppKey = @"app";
-static NSString *const kZLDeviceOSKey = @"dti";
-static NSString *const kZLOSiOS = @"1";
+static NSString *const ZLNUserIdentifierKey = @"uid";
+static NSString *const ZLNAppKey = @"app";
+static NSString *const ZLNDeviceOSKey = @"dti";
+static NSString *const ZLNOSiOS = @"1";
 
-static NSString *const kZLResponseStatusKey = @"request";
-static NSString *const kZLResponseStatusOK = @"OK";
+static NSString *const ZLNResponseStatusKey = @"request";
+static NSString *const ZLNResponseStatusOK = @"OK";
 
 /////////////////////////////////////////////////////
 
 @interface ZLNetworkRequestsPerformer ()
 
 @property (strong) AFHTTPRequestOperationManager *requestOperationManager;
+@property (strong) NSString *appIdentifier;
 
 @end
 
@@ -32,12 +33,23 @@ static NSString *const kZLResponseStatusOK = @"OK";
 
 #pragma mark - Initialization
 
--(instancetype) initWithBaseURL:(NSURL *) baseURL
+-(instancetype) init
 {
+    @throw [NSException exceptionWithName:@"NoInitMethod"
+                                   reason:@"User initWithBaseURL:appIdentifier: for initialization purposes"
+                                 userInfo:nil];
+}
+
+-(instancetype) initWithBaseURL:(NSURL *) baseURL
+                  appIdentifier:(NSString *) appIdentifier
+{
+    NSParameterAssert(baseURL);
+    NSParameterAssert(appIdentifier);
+
     self = [super init];
-    if (self)
-    {
+    if (self) {
         [self setupWithBaseURL:baseURL];
+        _appIdentifier = appIdentifier;
     }
 
     return self;
@@ -48,13 +60,13 @@ static NSString *const kZLResponseStatusOK = @"OK";
     self.requestOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
 }
 
-#pragma mark - Login
+#pragma mark - Requests
 
 -(NSOperation *) POST:(NSString *) path
            parameters:(NSDictionary *) parameters
     completionHandler:(void (^)(BOOL success, NSDictionary *response, NSError *error)) completionHandler
 {
-    NSAssert(self.userIdentifier, @"unable to perform authorization requests without user identifier");
+    NSAssert(self.userIdentifier, @"unable to perform requests without user identifier");
 
     return [self.requestOperationManager POST:path
                                    parameters:[self completeParameters:parameters]
@@ -86,23 +98,21 @@ static NSString *const kZLResponseStatusOK = @"OK";
 
 -(NSDictionary *) completeParameters:(NSDictionary *) parameters
 {
-    NSMutableDictionary *mutableParameters = [parameters mutableCopy];
-    if (!mutableParameters) {
-        mutableParameters = [NSMutableDictionary dictionary];
-    }
-
-    mutableParameters[kZLUserIdentifierKey] = self.userIdentifier;
-    mutableParameters[kZLAppKey] = @"2";
-    mutableParameters[kZLDeviceOSKey] = kZLOSiOS;
+    NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    mutableParameters[ZLNUserIdentifierKey] = self.userIdentifier;
+    mutableParameters[ZLNAppKey] = self.appIdentifier;
+    mutableParameters[ZLNDeviceOSKey] = ZLNOSiOS;
     return mutableParameters;
 }
+
+#pragma mark - Response validation
 
 -(BOOL) isResponseOK:(NSDictionary *) response
 {
     BOOL responseOK = NO;
 
-    NSString *responseStatus = response[kZLResponseStatusKey];
-    if ([responseStatus isEqualToString:kZLResponseStatusOK])
+    NSString *responseStatus = response[ZLNResponseStatusKey];
+    if ([responseStatus isEqualToString:ZLNResponseStatusOK])
     {
         responseOK = YES;
     }
