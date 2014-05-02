@@ -5,7 +5,7 @@ Pod::Spec.new do |spec|
   spec.homepage       = 'https://github.com/Ilushkanama/ZLNetworkRequestsPerformer'
   spec.authors        = { 'Ilya Dyakonov' => 'ilya@zappylab.com' }
   spec.summary        = 'simple AFNetworking wrapper for ZappyLab'
-  spec.source         = { :git => 'https://github.com/Ilushkanama/ZLNetworkRequestsPerformer.git', :branch => "dev" }
+  spec.source         = { :git => 'https://github.com/zappylab/ZLNetworkRequestsPerformer.git', :branch => "dev" }
   spec.source_files   = 'NetworkRequestsPerformer/*.{h,m}'
   spec.requires_arc   = true
   spec.dependency       'AFNetworking', '~> 2.0'
