@@ -11,7 +11,7 @@
 
 @interface ZLNetworkRequestsPerformer : NSObject
 
-@property (copy) NSString *userIdentifier;
++(void) setUserIdentifier:(NSString *) identifier;
 
 -(instancetype) initWithBaseURL:(NSURL *) baseURL
                   appIdentifier:(NSString *) appIdentifier;

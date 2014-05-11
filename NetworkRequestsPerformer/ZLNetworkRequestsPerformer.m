@@ -31,6 +31,15 @@ static NSString *const ZLNResponseStatusOK = @"OK";
 
 @implementation ZLNetworkRequestsPerformer
 
+#pragma mark - Class methods
+
+static NSString *userIdentifier;
+
++(void)setUserIdentifier:(NSString *) identifier
+{
+    userIdentifier = identifier;
+}
+
 #pragma mark - Initialization
 
 -(instancetype) init
@@ -66,7 +75,7 @@ static NSString *const ZLNResponseStatusOK = @"OK";
            parameters:(NSDictionary *) parameters
     completionHandler:(void (^)(BOOL success, NSDictionary *response, NSError *error)) completionHandler
 {
-    NSAssert(self.userIdentifier, @"unable to perform requests without user identifier");
+    NSAssert(userIdentifier, @"unable to perform requests without user identifier");
 
     return [self.requestOperationManager POST:path
                                    parameters:[self completeParameters:parameters]
@@ -99,7 +108,7 @@ static NSString *const ZLNResponseStatusOK = @"OK";
 -(NSDictionary *) completeParameters:(NSDictionary *) parameters
 {
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
-    mutableParameters[ZLNUserIdentifierKey] = self.userIdentifier;
+    mutableParameters[ZLNUserIdentifierKey] = userIdentifier;
     mutableParameters[ZLNAppKey] = self.appIdentifier;
     mutableParameters[ZLNDeviceOSKey] = ZLNOSiOS;
     return mutableParameters;
