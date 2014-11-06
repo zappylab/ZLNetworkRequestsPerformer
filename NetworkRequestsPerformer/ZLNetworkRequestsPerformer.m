@@ -81,19 +81,9 @@ static NSString *userIdentifier;
                                    parameters:[self completeParameters:parameters]
                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
                                       {
-                                          if ([self isResponseOK:responseObject])
+                                          if (completionHandler)
                                           {
-                                              if (completionHandler)
-                                              {
-                                                  completionHandler(YES, responseObject, nil);
-                                              }
-                                          }
-                                          else
-                                          {
-                                              if (completionHandler)
-                                              {
-                                                  completionHandler(NO, responseObject, nil);
-                                              }
+                                              completionHandler([self isResponseOK:responseObject], responseObject, nil);
                                           }
                                       }
                                       failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -101,6 +91,30 @@ static NSString *userIdentifier;
                                           if (completionHandler)
                                           {
                                               completionHandler(NO, nil, error);
+                                          }
+                                      }];
+}
+
+-(NSOperation *) POST:(NSString *) path
+                    parameters:(NSDictionary *) parameters
+completionHandlerWithOperation:(void (^)(NSOperation *requestOperation, BOOL success, NSDictionary *response, NSError *error)) completionHandler
+{
+    NSAssert(userIdentifier, @"unable to perform requests without user identifier");
+
+    return [self.requestOperationManager POST:path
+                                   parameters:[self completeParameters:parameters]
+                                      success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                      {
+                                          if (completionHandler)
+                                          {
+                                              completionHandler(operation, [self isResponseOK:responseObject], responseObject, nil);
+                                          }
+                                      }
+                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)
+                                      {
+                                          if (completionHandler)
+                                          {
+                                              completionHandler(operation, NO, nil, error);
                                           }
                                       }];
 }
