@@ -67,6 +67,7 @@ static NSString *userIdentifier;
 -(void) setupWithBaseURL:(NSURL *) baseURL
 {
     self.requestOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+    self.requestOperationManager.securityPolicy.allowInvalidCertificates = YES;
 }
 
 #pragma mark - Requests
