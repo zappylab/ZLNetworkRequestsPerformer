@@ -9,6 +9,10 @@
 
 /////////////////////////////////////////////////////
 
+extern NSString *const ZLNResponseErrorDomain;
+
+/////////////////////////////////////////////////////
+
 @interface ZLNetworkRequestsPerformer : NSObject
 
 +(void) setUserIdentifier:(NSString *) identifier;

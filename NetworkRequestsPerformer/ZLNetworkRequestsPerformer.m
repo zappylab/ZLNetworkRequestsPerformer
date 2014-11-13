@@ -18,6 +18,8 @@ static NSString *const ZLNOSiOS = @"1";
 static NSString *const ZLNResponseStatusKey = @"request";
 static NSString *const ZLNResponseStatusOK = @"OK";
 
+NSString *const ZLNResponseErrorDomain = @"ZLNetworkRequestsPerformer";
+
 /////////////////////////////////////////////////////
 
 @interface ZLNetworkRequestsPerformer ()
@@ -82,9 +84,16 @@ static NSString *userIdentifier;
                                    parameters:[self completeParameters:parameters]
                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
                                       {
+                                          BOOL success = [self isResponseOK:responseObject];
+                                          NSError *error = nil;
+                                          if (!success)
+                                          {
+                                              error = [self errorFromResponse:responseObject];
+                                          }
+
                                           if (completionHandler)
                                           {
-                                              completionHandler([self isResponseOK:responseObject], responseObject, nil);
+                                              completionHandler(success, responseObject, error);
                                           }
                                       }
                                       failure:^(AFHTTPRequestOperation *operation, NSError *error)
@@ -129,7 +138,7 @@ completionHandlerWithOperation:(void (^)(NSOperation *requestOperation, BOOL suc
     return mutableParameters;
 }
 
-#pragma mark - Response validation
+#pragma mark - Response handling
 
 -(BOOL) isResponseOK:(NSDictionary *) response
 {
@@ -142,6 +151,13 @@ completionHandlerWithOperation:(void (^)(NSOperation *requestOperation, BOOL suc
     }
 
     return responseOK;
+}
+
+-(NSError *) errorFromResponse:(NSDictionary *) response
+{
+    return [NSError errorWithDomain:ZLNResponseErrorDomain
+                               code:0
+                           userInfo:response];
 }
 
 @end
