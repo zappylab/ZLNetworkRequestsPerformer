@@ -21,10 +21,6 @@ extern NSString *const ZLNResponseErrorDomain;
                   appIdentifier:(NSString *) appIdentifier;
 
 -(NSOperation *) POST:(NSString *) path
-                    parameters:(NSDictionary *) parameters
-completionHandlerWithOperation:(void (^)(NSOperation *requestOperation, BOOL success, NSDictionary *response, NSError *error)) completionHandler;
-
--(NSOperation *) POST:(NSString *) path
            parameters:(NSDictionary *) parameters
     completionHandler:(void (^)(BOOL success, NSDictionary *response, NSError *error)) completionHandler;
 

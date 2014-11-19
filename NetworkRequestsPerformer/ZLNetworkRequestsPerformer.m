@@ -7,6 +7,7 @@
 #import <AFNetworking/AFNetworking.h>
 
 #import "ZLNetworkRequestsPerformer.h"
+#import "ZLNetworkRequestsPerformer+Protected.h"
 
 /////////////////////////////////////////////////////
 
@@ -37,7 +38,7 @@ NSString *const ZLNResponseErrorDomain = @"ZLNetworkRequestsPerformer";
 
 static NSString *userIdentifier;
 
-+(void)setUserIdentifier:(NSString *) identifier
++(void) setUserIdentifier:(NSString *) identifier
 {
     userIdentifier = identifier;
 }
@@ -58,7 +59,8 @@ static NSString *userIdentifier;
     NSParameterAssert(appIdentifier);
 
     self = [super init];
-    if (self) {
+    if (self)
+    {
         [self setupWithBaseURL:baseURL];
         _appIdentifier = appIdentifier;
     }
@@ -84,15 +86,15 @@ static NSString *userIdentifier;
                                    parameters:[self completeParameters:parameters]
                                       success:^(AFHTTPRequestOperation *operation, id responseObject)
                                       {
-                                          BOOL success = [self isResponseOK:responseObject];
-                                          NSError *error = nil;
-                                          if (!success)
-                                          {
-                                              error = [self errorFromResponse:responseObject];
-                                          }
-
                                           if (completionHandler)
                                           {
+                                              NSError *error = nil;
+                                              BOOL success = [self isResponseOK:responseObject];
+                                              if (!success)
+                                              {
+                                                  error = [self errorFromResponse:responseObject];
+                                              }
+
                                               completionHandler(success, responseObject, error);
                                           }
                                       }
@@ -101,30 +103,6 @@ static NSString *userIdentifier;
                                           if (completionHandler)
                                           {
                                               completionHandler(NO, nil, error);
-                                          }
-                                      }];
-}
-
--(NSOperation *) POST:(NSString *) path
-                    parameters:(NSDictionary *) parameters
-completionHandlerWithOperation:(void (^)(NSOperation *requestOperation, BOOL success, NSDictionary *response, NSError *error)) completionHandler
-{
-    NSAssert(userIdentifier, @"unable to perform requests without user identifier");
-
-    return [self.requestOperationManager POST:path
-                                   parameters:[self completeParameters:parameters]
-                                      success:^(AFHTTPRequestOperation *operation, id responseObject)
-                                      {
-                                          if (completionHandler)
-                                          {
-                                              completionHandler(operation, [self isResponseOK:responseObject], responseObject, nil);
-                                          }
-                                      }
-                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)
-                                      {
-                                          if (completionHandler)
-                                          {
-                                              completionHandler(operation, NO, nil, error);
                                           }
                                       }];
 }
@@ -151,13 +129,6 @@ completionHandlerWithOperation:(void (^)(NSOperation *requestOperation, BOOL suc
     }
 
     return responseOK;
-}
-
--(NSError *) errorFromResponse:(NSDictionary *) response
-{
-    return [NSError errorWithDomain:ZLNResponseErrorDomain
-                               code:0
-                           userInfo:response];
 }
 
 @end
