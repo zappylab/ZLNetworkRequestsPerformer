@@ -11,6 +11,7 @@
 
 @interface ZLNetworkRequestsPerformer (Protected)
 
+-(NSString *) responseMessage:(NSDictionary *) response;
 -(NSError *) errorFromResponse:(NSDictionary *) response;
 
 @end

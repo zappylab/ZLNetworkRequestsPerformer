@@ -8,7 +8,16 @@
 
 /////////////////////////////////////////////////////
 
+static NSString *const ZLNResponseStatusKey = @"request";
+
+/////////////////////////////////////////////////////
+
 @implementation ZLNetworkRequestsPerformer (Protected)
+
+-(NSString *) responseMessage:(NSDictionary *) response
+{
+    return response[ZLNResponseStatusKey];
+}
 
 -(NSError *) errorFromResponse:(NSDictionary *) response
 {

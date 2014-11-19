@@ -16,7 +16,6 @@ static NSString *const ZLNAppKey = @"app";
 static NSString *const ZLNDeviceOSKey = @"dti";
 static NSString *const ZLNOSiOS = @"1";
 
-static NSString *const ZLNResponseStatusKey = @"request";
 static NSString *const ZLNResponseStatusOK = @"OK";
 
 NSString *const ZLNResponseErrorDomain = @"ZLNetworkRequestsPerformer";
@@ -122,8 +121,7 @@ static NSString *userIdentifier;
 {
     BOOL responseOK = NO;
 
-    NSString *responseStatus = response[ZLNResponseStatusKey];
-    if ([responseStatus isEqualToString:ZLNResponseStatusOK])
+    if ([[self responseMessage:response] isEqualToString:ZLNResponseStatusOK])
     {
         responseOK = YES;
     }
