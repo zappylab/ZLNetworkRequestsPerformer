@@ -5,6 +5,7 @@
 //
 
 #import <AFNetworking/AFNetworking.h>
+#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
 
 #import "ZLNetworkRequestsPerformer.h"
 #import "ZLNetworkRequestsPerformer+Protected.h"
@@ -71,6 +72,7 @@ static NSString *userIdentifier;
 {
     self.requestOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
     self.requestOperationManager.securityPolicy.allowInvalidCertificates = YES;
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 }
 
 #pragma mark - Requests
