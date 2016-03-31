@@ -71,7 +71,10 @@ static NSString *userIdentifier;
 -(void) setupWithBaseURL:(NSURL *) baseURL
 {
     self.requestOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
-    self.requestOperationManager.securityPolicy.allowInvalidCertificates = YES;
+    AFSecurityPolicy *policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+    policy.validatesDomainName = NO;
+    policy.allowInvalidCertificates = YES;
+    self.requestOperationManager.securityPolicy = policy;
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 }
 

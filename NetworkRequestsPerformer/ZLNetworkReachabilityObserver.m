@@ -44,6 +44,10 @@
 -(void) setupWithURL:(NSURL *) URL
 {
     self.requestOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:URL];
+    AFSecurityPolicy *policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+    policy.validatesDomainName = NO;
+    policy.allowInvalidCertificates = YES;
+    self.requestOperationManager.securityPolicy = policy;
     [self startObservingReachability];
 }
 
