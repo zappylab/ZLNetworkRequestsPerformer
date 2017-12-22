@@ -8,5 +8,5 @@ Pod::Spec.new do |spec|
   spec.source         = { :git => 'https://github.com/zappylab/ZLNetworkRequestsPerformer.git', :branch => "dev" }
   spec.source_files   = 'NetworkRequestsPerformer/*.{h,m}'
   spec.requires_arc   = true
-  spec.dependency       'AFNetworking', '~> 2.0'
+  spec.dependency       'AFNetworking'
 end
