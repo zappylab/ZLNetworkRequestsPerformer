@@ -20,9 +20,11 @@ extern NSString *const ZLNResponseErrorDomain;
 -(instancetype) initWithBaseURL:(NSURL *) baseURL
                   appIdentifier:(NSString *) appIdentifier;
 
--(NSOperation *) POST:(NSString *) path
-           parameters:(NSDictionary *) parameters
-    completionHandler:(void (^)(BOOL success, NSDictionary *response, NSError *error)) completionHandler;
+-(NSURLSessionDataTask *) POST:(NSString *) path
+                    parameters:(NSDictionary *) parameters
+             completionHandler:(void (^)(BOOL success,
+                                         NSDictionary *response,
+                                         NSError *error)) completionHandler;
 
 @end
 

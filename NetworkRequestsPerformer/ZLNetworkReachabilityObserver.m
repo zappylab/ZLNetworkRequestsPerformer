@@ -14,7 +14,7 @@
 @interface ZLNetworkReachabilityObserver ()
 
 @property (readwrite) BOOL networkReachable;
-@property (strong) AFHTTPRequestOperationManager *requestOperationManager;
+@property (strong) AFHTTPSessionManager *requestSessionManager;
 
 @end
 
@@ -43,11 +43,11 @@
 
 -(void) setupWithURL:(NSURL *) URL
 {
-    self.requestOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:URL];
+    self.requestSessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:URL];
     AFSecurityPolicy *policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
     policy.validatesDomainName = NO;
     policy.allowInvalidCertificates = YES;
-    self.requestOperationManager.securityPolicy = policy;
+    self.requestSessionManager.securityPolicy = policy;
     [self startObservingReachability];
 }
 
@@ -56,7 +56,7 @@
 -(void) startObservingReachability
 {
     __weak ZLNetworkReachabilityObserver *wSelf = self;
-    [self.requestOperationManager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
+    [self.requestSessionManager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
     {
         if (status == AFNetworkReachabilityStatusNotReachable ||
                 status == AFNetworkReachabilityStatusUnknown)
@@ -72,8 +72,8 @@
         [wSelf postReachabilityStatusChangeNotification];
     }];
 
-    [self.requestOperationManager.reachabilityManager startMonitoring];
-    self.networkReachable = self.requestOperationManager.reachabilityManager.isReachable;
+    [self.requestSessionManager.reachabilityManager startMonitoring];
+    self.networkReachable = self.requestSessionManager.reachabilityManager.isReachable;
 }
 
 -(void) postReachabilityStatusChangeNotification

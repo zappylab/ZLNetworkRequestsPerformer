@@ -25,7 +25,7 @@ NSString *const ZLNResponseErrorDomain = @"ZLNetworkRequestsPerformer";
 
 @interface ZLNetworkRequestsPerformer ()
 
-@property (strong) AFHTTPRequestOperationManager *requestOperationManager;
+@property (strong) AFHTTPSessionManager *requestSessionManager;
 @property (strong) NSString *appIdentifier;
 
 @end
@@ -70,45 +70,45 @@ static NSString *userIdentifier;
 
 -(void) setupWithBaseURL:(NSURL *) baseURL
 {
-    self.requestOperationManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+    self.requestSessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
     AFSecurityPolicy *policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
     policy.validatesDomainName = NO;
     policy.allowInvalidCertificates = YES;
-    self.requestOperationManager.securityPolicy = policy;
+    self.requestSessionManager.securityPolicy = policy;
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 }
 
 #pragma mark - Requests
 
--(NSOperation *) POST:(NSString *) path
-           parameters:(NSDictionary *) parameters
-    completionHandler:(void (^)(BOOL success, NSDictionary *response, NSError *error)) completionHandler
+-(NSURLSessionDataTask *) POST:(NSString *) path
+                    parameters:(NSDictionary *) parameters
+             completionHandler:(void (^)(BOOL success, NSDictionary *response, NSError *error)) completionHandler
 {
     NSAssert(userIdentifier, @"unable to perform requests without user identifier");
-
-    return [self.requestOperationManager POST:path
-                                   parameters:[self completeParameters:parameters]
-                                      success:^(AFHTTPRequestOperation *operation, id responseObject)
-                                      {
-                                          if (completionHandler)
-                                          {
-                                              NSError *error = nil;
-                                              BOOL success = [self isResponseOK:responseObject];
-                                              if (!success)
-                                              {
-                                                  error = [self errorFromResponse:responseObject];
-                                              }
-
-                                              completionHandler(success, responseObject, error);
-                                          }
-                                      }
-                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)
-                                      {
-                                          if (completionHandler)
-                                          {
-                                              completionHandler(NO, nil, error);
-                                          }
-                                      }];
+    return [self.requestSessionManager POST:path
+                                 parameters:[self completeParameters:parameters]
+                                   progress:nil
+                                    success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+            {
+                if (completionHandler)
+                {
+                    NSError *error = nil;
+                    BOOL success = [self isResponseOK:responseObject];
+                    if (!success)
+                    {
+                        error = [self errorFromResponse:responseObject];
+                    }
+                    
+                    completionHandler(success, responseObject, error);
+                }
+            }
+                                    failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+            {
+                if (completionHandler)
+                {
+                    completionHandler(NO, nil, error);
+                }
+            }];
 }
 
 -(NSDictionary *) completeParameters:(NSDictionary *) parameters
