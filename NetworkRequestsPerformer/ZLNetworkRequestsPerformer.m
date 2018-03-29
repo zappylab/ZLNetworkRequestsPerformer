@@ -74,7 +74,6 @@ static NSString *userIdentifier;
     AFSecurityPolicy *policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
     policy.validatesDomainName = NO;
     policy.allowInvalidCertificates = YES;
-    self.requestSessionManager.securityPolicy = policy;
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
 }
 

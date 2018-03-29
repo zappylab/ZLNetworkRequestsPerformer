@@ -47,7 +47,6 @@
     AFSecurityPolicy *policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
     policy.validatesDomainName = NO;
     policy.allowInvalidCertificates = YES;
-    self.requestSessionManager.securityPolicy = policy;
     [self startObservingReachability];
 }
 
