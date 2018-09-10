@@ -71,6 +71,13 @@ static NSString *userIdentifier;
 -(void) setupWithBaseURL:(NSURL *) baseURL
 {
     self.requestSessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    AFJSONResponseSerializer *jsonResponseSerializer = [AFJSONResponseSerializer serializer];
+    
+    NSMutableSet *jsonAcceptableContentTypes = [NSMutableSet setWithSet:jsonResponseSerializer.acceptableContentTypes];
+    [jsonAcceptableContentTypes addObject:@"text/html"];
+    jsonResponseSerializer.acceptableContentTypes = jsonAcceptableContentTypes;
+    self.requestSessionManager.responseSerializer = jsonResponseSerializer;
+    
     AFSecurityPolicy *policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
     policy.validatesDomainName = NO;
     policy.allowInvalidCertificates = YES;
